@@ -1,0 +1,48 @@
+use "RGANALYTICS"
+
+CREATE or replace TABLE pop_data (
+	country VARCHAR(45) NOT NULL, 
+	area DECIMAL(38, 0) NOT NULL, 
+	birth_rate DECIMAL(38, 2) NOT NULL, 
+	death_rate DECIMAL(38, 2) NOT NULL, 
+	infant_mortality_rate DECIMAL(38, 2) NOT NULL, 
+	internet_users DECIMAL(38, 0) NOT NULL, 
+	life_exp_at_birth DECIMAL(38, 2) NOT NULL, 
+	mater178l_mortality_rate DECIMAL(38, 0) NOT NULL, 
+	net_migration_rate DECIMAL(38, 3) NOT NULL, 
+	population DECIMAL(38, 0) NOT NULL, 
+	population_growth_rate DECIMAL(38, 2) NOT NULL
+);
+
+select * from pop_data;
+
+------#1. Which country has the highest population?---------------------------------------
+select country from pop_data where population= (select max(population) from pop_data);
+
+select country, population from pop_data where population= (select max(population) from pop_data);
+---China = 1355692576
+
+------#2. Which country has the least number of people?-----------------------------------
+select country from pop_data where population= (select min(population) from pop_data);
+
+select country, population from pop_data where population= (select min(population) from pop_data);
+----Pitcairn Islands = 48
+
+
+------#3. Which country is witnessing the highest population growth?-----------------------------------------
+
+select country from pop_data where population_growth_rate= (select max(population_growth_rate) from pop_data);
+
+select country, population_growth_rate from pop_data where population_growth_rate= (select max(population_growth_rate) from pop_data);
+--Lebanon = 9.37%
+ 
+------#4. Which country has an extraordinary number for the population?
+
+select country, population from pop_data where population= (select max(population) from pop_data);
+---China = 1355692576
+
+------#5. Which is the most densely populated country in the world?
+
+select country, round(population/area,2) densely_pop from pop_data where area > 0 order by densely_pop desc limit 1;
+---Kingman Reef = 32294361.00
+
